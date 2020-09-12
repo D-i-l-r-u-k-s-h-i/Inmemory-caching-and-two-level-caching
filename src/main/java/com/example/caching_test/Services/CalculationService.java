@@ -20,7 +20,7 @@ public class CalculationService {
     public BigDecimal squareLRU(Long number) {
         BigDecimal square = BigDecimal.valueOf(number)
                 .multiply(BigDecimal.valueOf(number));
-        logger.info("square of {} is {}", number, square);
+        logger.info("square of {} is {} after calculation -LRU Eviction-Level2", number, square);
         return square;
     }
 
@@ -32,7 +32,7 @@ public class CalculationService {
     public BigDecimal squareLFU(Long number) {
         BigDecimal square = BigDecimal.valueOf(number)
                 .multiply(BigDecimal.valueOf(number));
-        logger.info("square of {} is {}", number, square);
+        logger.info("square of {} is {} after calculation -LFU Eviction-Level2", number, square);
         return square;
     }
 
@@ -42,8 +42,9 @@ public class CalculationService {
 //            condition = "#radius > 5",
             sync = true)
     public double areaOfCircleLFU(int radius) {
-        logger.info("calculate the area of a circle with a radius of {}", radius);
-        return Math.PI * Math.pow(radius, 2);
+        double area =Math.PI * Math.pow(radius, 2);
+        logger.info("the area of a circle with a radius of {} is {} after calculation -LFU Eviction-Level1", radius,area);
+        return area;
     }
 
     @Cacheable(value = "areaOfCircleCacheLRU",
@@ -51,7 +52,8 @@ public class CalculationService {
 //            condition = "#radius > 5",
             sync = true)
     public double areaOfCircleLRU(int radius) {
-        logger.info("calculate the area of a circle with a radius of {}", radius);
-        return Math.PI * Math.pow(radius, 2);
+        double area =Math.PI * Math.pow(radius, 2);
+        logger.info("the area of a circle with a radius of {} is {} after calculation -LRU Eviction-Level1", radius,area);
+        return area;
     }
 }

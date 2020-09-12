@@ -22,7 +22,7 @@ public class CacheController {
     @RequestMapping(value = "/l1lrueviction/{number}", method = RequestMethod.GET)
     public String levelOneLRUEviction(@PathVariable Long number) throws Exception {
 
-        logger.info("call calculationService to calculate square {}", number);
+        logger.info("call calculationService to calculate square {} -LRU Eviction-Level2", number);
         return String.format("{\"square\": %s}", calculationService.squareLRU(number));
 
     }
@@ -30,7 +30,7 @@ public class CacheController {
     @RequestMapping(value = "/l2lrueviction/{number}", method = RequestMethod.GET)
     public String levelTwoLRUEviction(@PathVariable Long number) throws Exception {
 
-        logger.info("call calculationService to calculate square {}", number);
+        logger.info("call calculationService to calculate square {} -LRU Eviction-Level1", number);
         return String.format("{\"square\": %s}", calculationService.squareLRU(number));
 
     }
@@ -38,7 +38,7 @@ public class CacheController {
     @RequestMapping(value = "/l1lfueviction/{radius}", method = RequestMethod.GET)
     public String levelOneLFUEviction(@PathVariable Integer radius) throws Exception {
 
-        logger.info("call calculationService for area calculation of circle to radius {}", radius);
+        logger.info("call calculationService for area calculation of circle to radius {} -LFU Eviction-Level1", radius);
         return String.format("{\"area of circle\": %s}", calculationService.areaOfCircleLFU(radius));
 
     }
@@ -46,7 +46,7 @@ public class CacheController {
     @RequestMapping(value = "/l2lfueviction/{radius}", method = RequestMethod.GET)
     public String levelTwoLFUEviction(@PathVariable Integer radius) throws Exception {
 
-        logger.info("call calculationService for area calculation of circle to radius {}", radius);
+        logger.info("call calculationService for area calculation of circle to radius {} -LFU Eviction-Level2", radius);
         return String.format("{\"area of circle\": %s}", calculationService.areaOfCircleLRU(radius));
 
     }
