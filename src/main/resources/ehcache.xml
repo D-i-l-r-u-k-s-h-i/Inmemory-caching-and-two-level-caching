@@ -4,11 +4,13 @@
          monitoring="autodetect"
          dynamicConfig="true">
 
+<!--    temporary directory for cache storage for the purpose of testing-->
     <diskStore path="java.io.tmpdir" />
 
-    <cache name="areaOfCircleCache"
+    <!--    level 1(in-memory) cache with LFU eviction strategy-->
+    <cache name="areaOfCircleCacheLFU"
            maxEntriesLocalHeap="5"
-           maxEntriesLocalDisk="5"
+           maxEntriesLocalDisk="8"
            eternal="false"
            diskSpoolBufferSizeMB="20"
            timeToIdleSeconds="300" timeToLiveSeconds="600"
@@ -19,15 +21,45 @@
 
     </cache>
 
-    <cache name="squareCache"
+    <!--    level 1(in-memory) cache with LRU eviction strategy-->
+    <cache name="areaOfCircleCacheLRU"
            maxEntriesLocalHeap="5"
-           maxEntriesLocalDisk="5"
+           maxEntriesLocalDisk="8"
            eternal="false"
            diskSpoolBufferSizeMB="20"
            timeToIdleSeconds="300" timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LRU"
            transactionalMode="off">
         <persistence strategy="localTempSwap" />
+        <cacheEventListenerFactory class="com.example.caching_test.Config.ListenerFactory" properties="" listenFor="all"/>
+
+    </cache>
+
+<!--    level 2 cache with LRU eviction strategy-->
+    <cache name="squareCacheLRU"
+           maxEntriesLocalHeap="5"
+           maxEntriesLocalDisk="8"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU"
+           overflowToDisk="true"
+           diskPersistent="true"
+           transactionalMode="off">
+        <cacheEventListenerFactory class="com.example.caching_test.Config.ListenerFactory" properties="" listenFor="all"/>
+    </cache>
+
+    <!--    level 2 cache with LFU eviction strategy-->
+    <cache name="squareCacheLFU"
+           maxEntriesLocalHeap="5"
+           maxEntriesLocalDisk="8"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           overflowToDisk="true"
+           diskPersistent="true"
+           transactionalMode="off">
         <cacheEventListenerFactory class="com.example.caching_test.Config.ListenerFactory" properties="" listenFor="all"/>
     </cache>
 

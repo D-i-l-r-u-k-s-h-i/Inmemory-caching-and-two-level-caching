@@ -11,20 +11,46 @@ import java.math.BigDecimal;
 public class CalculationService {
     private static Logger logger = LoggerFactory.getLogger(CalculationService.class);
 
+//    level 2 cache
     @Cacheable(
-            value = "squareCache",
+            value = "squareCacheLRU",
             key = "#number",
-            condition = "#number>10",
+//            condition = "#number>10",
             sync = true)
-    public BigDecimal square(Long number) {
+    public BigDecimal squareLRU(Long number) {
         BigDecimal square = BigDecimal.valueOf(number)
                 .multiply(BigDecimal.valueOf(number));
         logger.info("square of {} is {}", number, square);
         return square;
     }
 
-    @Cacheable(value = "areaOfCircleCache", key = "#radius", condition = "#radius > 5")
-    public double areaOfCircle(int radius) {
+    @Cacheable(
+            value = "squareCacheLFU",
+            key = "#number",
+//            condition = "#number>10",
+            sync = true)
+    public BigDecimal squareLFU(Long number) {
+        BigDecimal square = BigDecimal.valueOf(number)
+                .multiply(BigDecimal.valueOf(number));
+        logger.info("square of {} is {}", number, square);
+        return square;
+    }
+
+//    level 1(in-memory) cache
+    @Cacheable(value = "areaOfCircleCacheLFU",
+            key = "#radius",
+//            condition = "#radius > 5",
+            sync = true)
+    public double areaOfCircleLFU(int radius) {
+        logger.info("calculate the area of a circle with a radius of {}", radius);
+        return Math.PI * Math.pow(radius, 2);
+    }
+
+    @Cacheable(value = "areaOfCircleCacheLRU",
+            key = "#radius",
+//            condition = "#radius > 5",
+            sync = true)
+    public double areaOfCircleLRU(int radius) {
         logger.info("calculate the area of a circle with a radius of {}", radius);
         return Math.PI * Math.pow(radius, 2);
     }

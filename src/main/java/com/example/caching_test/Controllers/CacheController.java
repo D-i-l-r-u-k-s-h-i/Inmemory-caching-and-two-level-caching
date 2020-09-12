@@ -19,26 +19,35 @@ public class CacheController {
     @Autowired
     CalculationService calculationService;
 
-    @RequestMapping(value = "/lrueviction/{number}", method = RequestMethod.GET)
-    public String testLRUEviction(@PathVariable Long number) throws Exception {
+    @RequestMapping(value = "/l1lrueviction/{number}", method = RequestMethod.GET)
+    public String levelOneLRUEviction(@PathVariable Long number) throws Exception {
 
         logger.info("call calculationService to calculate square {}", number);
-        return String.format("{\"square\": %s}", calculationService.square(number));
+        return String.format("{\"square\": %s}", calculationService.squareLRU(number));
 
     }
 
-    @RequestMapping(value = "/lfueviction/{radius}", method = RequestMethod.GET)
-    public String testLFUEviction(@PathVariable Integer radius) throws Exception {
+    @RequestMapping(value = "/l2lrueviction/{number}", method = RequestMethod.GET)
+    public String levelTwoLRUEviction(@PathVariable Long number) throws Exception {
+
+        logger.info("call calculationService to calculate square {}", number);
+        return String.format("{\"square\": %s}", calculationService.squareLRU(number));
+
+    }
+
+    @RequestMapping(value = "/l1lfueviction/{radius}", method = RequestMethod.GET)
+    public String levelOneLFUEviction(@PathVariable Integer radius) throws Exception {
 
         logger.info("call calculationService for area calculation of circle to radius {}", radius);
-        return String.format("{\"area of circle\": %s}", calculationService.areaOfCircle(radius));
+        return String.format("{\"area of circle\": %s}", calculationService.areaOfCircleLFU(radius));
 
     }
 
-    @RequestMapping(value = "/twolevel", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> testTwoLevelCache() throws Exception {
+    @RequestMapping(value = "/l2lfueviction/{radius}", method = RequestMethod.GET)
+    public String levelTwoLFUEviction(@PathVariable Integer radius) throws Exception {
 
+        logger.info("call calculationService for area calculation of circle to radius {}", radius);
+        return String.format("{\"area of circle\": %s}", calculationService.areaOfCircleLRU(radius));
 
-        return ResponseEntity.ok("some array");
     }
 }
